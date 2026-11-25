@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <string.h>
+
+int  sno[50];
+char day[50][20];
+int  period[50];
+char subject[50][20];
+int  count = 0;
+
+void addPeriod()
+{
+    if (count >= 50)
+    {
+        printf("Timetable is full.\n");
+        return;
+    }
+
+    sno[count] = count + 1;
+
+    printf("Enter day: ");
+    scanf("%s", day[count]);
+
+    printf("Enter period number: ");
+    scanf("%d", &period[count]);
+
+    printf("Enter subject: ");
+    scanf("%s", subject[count]);
+
+    count++;
+    printf("Period added.\n");
+}
+
+void viewTimetable()
+{
+    int i;
+
+    if (count == 0)
+    {
+        printf("Timetable is empty.\n");
+        return;
+    }
+
+    printf("\nS.No  Day         Period  Subject\n");
+    printf("-----------------------------------\n");
+
+    for (i = 0; i < count; i++)
+    {
+        printf("%-6d %-11s %-7d %s\n", sno[i], day[i], period[i], subject[i]);
+    }
+}
+
+void searchBySubject()
+{
+    char key[20];
+    int i, found = 0;
+
+    if (count == 0)
+    {
+        printf("Timetable is empty.\n");
+        return;
+    }
+
+    printf("Enter subject to search: ");
+    scanf("%s", key);
+
+    for (i = 0; i < count; i++)
+    {
+        if (strcmp(subject[i], key) == 0)
+        {
+            if (found == 0)   /* print the heading only once */
+            {
+                printf("\nS.No  Day         Period  Subject\n");
+                printf("-----------------------------------\n");
+            }
+            printf("%-6d %-11s %-7d %s\n", sno[i], day[i], period[i], subject[i]);
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("No periods found for %s.\n", key);
+    }
+}
+
+/* NEW FUNCTION: search periods by day */
+void searchByDay()
+{
+    char key[20];
+    int i, found = 0;
+
+    if (count == 0)
+    {
+        printf("Timetable is empty.\n");
+        return;
+    }
+
+    printf("Enter day to search: ");
+    scanf("%s", key);
+
+    for (i = 0; i < count; i++)
+    {
+        if (strcmp(day[i], key) == 0)
+        {
+            if (found == 0)
+            {
+                printf("\nS.No  Day         Period  Subject\n");
+                printf("-----------------------------------\n");
+            }
+            printf("%-6d %-11s %-7d %s\n", sno[i], day[i], period[i], subject[i]);
+            found = 1;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("No periods found for %s.\n", key);
+    }
+}
+
+int main()
+{
+    int choice;
+
+    do
+    {
+        printf("\n--- CLASS TIMETABLE ---\n");
+        printf("1. Add period\n");
+        printf("2. View timetable\n");
+        printf("3. Search by subject\n");
+        printf("4. Search by day\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                addPeriod();
+                break;
+            case 2:
+                viewTimetable();
+                break;
+            case 3:
+                searchBySubject();
+                break;
+            case 4:
+                searchByDay();
+                break;
+            case 5:
+                printf("\nExiting the program. Goodbye!\n");
+                break;
+            default:
+                printf("\nInvalid choice. Please enter 1 to 5.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
